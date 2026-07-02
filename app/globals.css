@@ -7,3 +7,89 @@ body {
   background-color: #fafafa;
   color: #222;
 }
+
+.calendar-page {
+  padding: 1rem;
+  font-family: sans-serif;
+  max-width: 480px;
+  margin: 0 auto;
+}
+
+.period-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
+}
+
+.period-nav a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.period-label {
+  font-weight: bold;
+}
+
+.calendar-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 2px;
+}
+
+.weekday-header {
+  text-align: center;
+  font-size: 0.75rem;
+  color: #666;
+  padding: 4px 0;
+}
+
+.day-cell {
+  min-height: 56px;
+  border: 1px solid #e0e0e0;
+  border-radius: 4px;
+  padding: 4px;
+  font-size: 0.75rem;
+  background: #fff;
+}
+
+.day-cell.outside {
+  opacity: 0.35;
+}
+
+.day-number {
+  font-weight: bold;
+}
+
+.day-status {
+  margin-top: 4px;
+}
+
+.status-full {
+  background: #e8f0fe;
+}
+
+.status-half {
+  background: #fff4e5;
+}
+
+.status-off {
+  background: #f0f0f0;
+}
+
+.status-conflict {
+  background: #fdecea;
+  color: #c0392b;
+  font-weight: bold;
+}
+
+.error {
+  color: #c0392b;
+}
+
+.note {
+  margin-top: 1rem;
+  font-size: 0.75rem;
+  color: #888;
+}
