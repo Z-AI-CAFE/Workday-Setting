@@ -59,6 +59,23 @@ export default async function Home({ searchParams }) {
         <p className="error">データの取得に失敗しました：{error.message}</p>
       )}
 
+      {/* 一時的な調査用表示。原因が分かったら削除します */}
+      <pre className="debug-box">
+        {JSON.stringify(
+          {
+            rangeStart,
+            rangeEnd,
+            urlSet: !!process.env.SUPABASE_URL,
+            keySet: !!process.env.SUPABASE_ANON_KEY,
+            dataCount: data ? data.length : null,
+            errorMessage: error ? error.message : null,
+            sample: data && data[0] ? data[0] : null,
+          },
+          null,
+          2
+        )}
+      </pre>
+
       <AutoScheduleButton refDateIso={formatDateISO(start)} />
 
       <CalendarGrid cells={cells} />
