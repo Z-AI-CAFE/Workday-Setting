@@ -1,22 +1,7 @@
 import Link from 'next/link';
 import { getSupabaseServerClient } from '../lib/supabaseServer';
 import { getPeriodRange, getCalendarWeeks, formatDateISO } from '../lib/period';
-
-const STATUS_LABEL = {
-  full_work: '出勤',
-  half_work: '半日出勤',
-  day_off: '休日',
-  needs_confirmation: '要確認',
-};
-
-const STATUS_CLASS = {
-  full_work: 'status-full',
-  half_work: 'status-half',
-  day_off: 'status-off',
-  needs_confirmation: 'status-conflict',
-};
-
-const WEEKDAY_LABELS = ['月', '火', '水', '木', '金', '土', '日'];
+import CalendarGrid from '../components/CalendarGrid';
 
 export default async function Home({ searchParams }) {
   const refDate = searchParams?.date ? new Date(searchParams.date) : new Date();
@@ -43,6 +28,18 @@ export default async function Home({ searchParams }) {
   const nextDate = new Date(end);
   nextDate.setDate(nextDate.getDate() + 1);
 
+  const cells = weeks.flat().map((date) => {
+    const iso = formatDateISO(date);
+    const row = dayMap[iso];
+    return {
+      iso,
+      dayNumber: date.getDate(),
+      inPeriod: date >= start && date <= end,
+      status: row?.status || null,
+      manualFixed: !!row?.manual_fixed,
+    };
+  });
+
   return (
     <main className="calendar-page">
       <h1>スケジュール管理アプリ</h1>
@@ -57,35 +54,10 @@ export default async function Home({ searchParams }) {
         <p className="error">データの取得に失敗しました：{error.message}</p>
       )}
 
-      <div className="calendar-grid">
-        {WEEKDAY_LABELS.map((w) => (
-          <div key={w} className="weekday-header">
-            {w}
-          </div>
-        ))}
-        {weeks.flat().map((date) => {
-          const iso = formatDateISO(date);
-          const inPeriod = date >= start && date <= end;
-          const row = dayMap[iso];
-          const statusKey = row?.status;
-          return (
-            <div
-              key={iso}
-              className={[
-                'day-cell',
-                inPeriod ? '' : 'outside',
-                statusKey ? STATUS_CLASS[statusKey] : '',
-              ].join(' ')}
-            >
-              <div className="day-number">{date.getDate()}</div>
-              {statusKey && <div className="day-status">{STATUS_LABEL[statusKey]}</div>}
-            </div>
-          );
-        })}
-      </div>
+      <CalendarGrid cells={cells} />
 
       <p className="note">
-        ※現在は閲覧のみです。データがまだ登録されていないため、すべて空欄で表示されます。
+        マス目をタップすると、出勤／半日出勤／休日を手動で設定できます。
       </p>
     </main>
   );
