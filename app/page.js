@@ -3,6 +3,10 @@ import { getSupabaseServerClient } from '../lib/supabaseServer';
 import { getPeriodRange, getCalendarWeeks, formatDateISO } from '../lib/period';
 import CalendarGrid from '../components/CalendarGrid';
 
+// Next.jsの「データキャッシュ」機能により、Supabaseから取得した内容が
+// 使い回されて古いままになるのを防ぐため、毎回必ず最新データを取得させる設定
+export const dynamic = 'force-dynamic';
+
 export default async function Home({ searchParams }) {
   const refDate = searchParams?.date ? new Date(searchParams.date) : new Date();
   const { start, end, label } = getPeriodRange(refDate);
