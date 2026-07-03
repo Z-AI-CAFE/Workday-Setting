@@ -16,8 +16,9 @@ create table schedule_days (
   status text not null default 'day_off', -- 状態：full_work(全日出勤) / half_work(半日出勤) / day_off(休日) / needs_confirmation(要確認)
   reason text not null default 'auto_adjust',
     -- 理由：colleague_off(同僚休日) / salary_monk_prep(僧侶給料準備日) / salary_monk_pay(僧侶給料支払日)
-    -- staff_prep(職員給料準備日) / staff_pay(職員給料支払日) / private_event(プライベート用事)
-    -- auto_adjust(週4出勤調整) / manual(手動編集) / conflict_salary_private(給料日と用事が重複＝要確認)
+    -- salary_staff_prep(職員給料準備日) / salary_staff_pay(職員給料支払日) / first_of_month(毎月1日)
+    -- private_event(プライベート用事) / auto_adjust(週4出勤調整) / manual(手動編集)
+    -- conflict_colleague_private(同僚休日と用事が重複＝要確認) / conflict_priority_private(給料日/1日と用事が重複＝要確認)
   manual_fixed boolean not null default false,
     -- true の場合、自動計算で上書きしない「手動固定」の日
   note text,

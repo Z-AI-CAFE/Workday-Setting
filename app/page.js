@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { getSupabaseServerClient } from '../lib/supabaseServer';
 import { getPeriodRange, getCalendarWeeks, formatDateISO } from '../lib/period';
 import CalendarGrid from '../components/CalendarGrid';
+import AutoScheduleButton from '../components/AutoScheduleButton';
 
 // Next.jsの「データキャッシュ」機能により、Supabaseから取得した内容が
 // 使い回されて古いままになるのを防ぐため、毎回必ず最新データを取得させる設定
@@ -58,10 +59,12 @@ export default async function Home({ searchParams }) {
         <p className="error">データの取得に失敗しました：{error.message}</p>
       )}
 
+      <AutoScheduleButton refDateIso={formatDateISO(start)} />
+
       <CalendarGrid cells={cells} />
 
       <p className="note">
-        マス目をタップすると、出勤／半日出勤／休日を手動で設定できます。
+        マス目をタップすると、出勤／半日出勤／休日を手動で設定できます。手動固定の日（「手動」の印）は自動計算で上書きされません。
       </p>
     </main>
   );

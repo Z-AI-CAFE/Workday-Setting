@@ -82,6 +82,31 @@ body {
   color: #1a73e8;
 }
 
+.auto-schedule-box {
+  margin-bottom: 0.75rem;
+}
+
+.auto-schedule-button {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  border: none;
+  border-radius: 8px;
+  background: #1a73e8;
+  color: #fff;
+}
+
+.auto-schedule-button:disabled {
+  opacity: 0.6;
+}
+
+.auto-schedule-message {
+  margin-top: 0.4rem;
+  font-size: 0.8rem;
+  color: #444;
+  text-align: center;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;
