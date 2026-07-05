@@ -15,6 +15,8 @@ export default async function ManagePage() {
     supabase.from('private_events').select('id, date, title').order('date', { ascending: true }),
   ]);
 
+  const loadError = holidaysRes.error || salaryRes.error || eventsRes.error;
+
   return (
     <main className="calendar-page">
       <h1>入力・設定</h1>
@@ -22,6 +24,10 @@ export default async function ManagePage() {
       <p className="manage-back">
         <Link href="/">← カレンダーに戻る</Link>
       </p>
+
+      {loadError && (
+        <p className="error">データの取得に失敗しました：{loadError.message}</p>
+      )}
 
       <ColleagueHolidaysManager items={holidaysRes.data || []} />
       <SalaryDaysManager items={salaryRes.data || []} />
