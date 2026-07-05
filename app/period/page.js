@@ -1,21 +1,21 @@
 import Link from 'next/link';
-import { getSupabaseServerClient } from '../lib/supabaseServer';
-import { getTwoWeekRange, getPaddedGridDates, formatDateISO } from '../lib/period';
-import TwoWeekGrid from '../components/TwoWeekGrid';
-import RefreshButton from '../components/RefreshButton';
+import { getSupabaseServerClient } from '../../lib/supabaseServer';
+import { getPeriodRange, getCalendarWeeks, formatDateISO } from '../../lib/period';
+import CalendarGrid from '../../components/CalendarGrid';
+import AutoScheduleButton from '../../components/AutoScheduleButton';
+import RefreshButton from '../../components/RefreshButton';
 
 // Next.jsの「データキャッシュ」機能により、Supabaseから取得した内容が
 // 使い回されて古いままになるのを防ぐため、毎回必ず最新データを取得させる設定
 export const dynamic = 'force-dynamic';
 
-export default async function Home({ searchParams }) {
-  const todayIso = formatDateISO(new Date());
-  const refDate = searchParams?.start ? new Date(searchParams.start) : new Date();
-  const { start, end } = getTwoWeekRange(refDate);
-  const gridDates = getPaddedGridDates(start, end);
+export default async function PeriodPage({ searchParams }) {
+  const refDate = searchParams?.date ? new Date(searchParams.date) : new Date();
+  const { start, end, label } = getPeriodRange(refDate);
+  const weeks = getCalendarWeeks(start, end);
 
-  const rangeStart = formatDateISO(start);
-  const rangeEnd = formatDateISO(end);
+  const rangeStart = formatDateISO(weeks[0][0]);
+  const rangeEnd = formatDateISO(weeks[weeks.length - 1][6]);
 
   const supabase = getSupabaseServerClient();
   const { data, error } = await supabase
@@ -29,40 +29,37 @@ export default async function Home({ searchParams }) {
     dayMap[row.date] = row;
   });
 
-  const prevStart = new Date(start);
-  prevStart.setDate(prevStart.getDate() - 14);
-  const nextStart = new Date(start);
-  nextStart.setDate(nextStart.getDate() + 14);
+  const prevDate = new Date(start);
+  prevDate.setDate(prevDate.getDate() - 1);
+  const nextDate = new Date(end);
+  nextDate.setDate(nextDate.getDate() + 1);
 
-  const cells = gridDates.map((date) => {
-    if (!date) return null;
+  const cells = weeks.flat().map((date) => {
     const iso = formatDateISO(date);
     const row = dayMap[iso];
     return {
       iso,
       dayNumber: date.getDate(),
-      isToday: iso === todayIso,
+      inPeriod: date >= start && date <= end,
       status: row?.status || null,
       manualFixed: !!row?.manual_fixed,
     };
   });
 
-  const label = `${start.getFullYear()}年${start.getMonth() + 1}月${start.getDate()}日 〜 ${end.getFullYear()}年${end.getMonth() + 1}月${end.getDate()}日`;
-
   return (
     <main className="calendar-page">
-      <h1>スケジュール管理アプリ</h1>
+      <h1>期間ごとの確認・自動計算</h1>
 
       <p className="manage-link">
-        <Link href="/period">期間ごとの確認・自動計算はこちら →</Link>
+        <Link href="/">← 2週間表示（トップ）に戻る</Link>
         {' ／ '}
         <Link href="/manage">入力・設定 →</Link>
       </p>
 
       <div className="period-nav">
-        <Link href={`/?start=${formatDateISO(prevStart)}`}>← 前の2週間</Link>
+        <Link href={`/period?date=${formatDateISO(prevDate)}`}>← 前の期間</Link>
         <span className="period-label">{label}</span>
-        <Link href={`/?start=${formatDateISO(nextStart)}`}>次の2週間 →</Link>
+        <Link href={`/period?date=${formatDateISO(nextDate)}`}>次の期間 →</Link>
       </div>
 
       <RefreshButton />
@@ -71,7 +68,9 @@ export default async function Home({ searchParams }) {
         <p className="error">データの取得に失敗しました：{error.message}</p>
       )}
 
-      <TwoWeekGrid cells={cells} />
+      <AutoScheduleButton refDateIso={formatDateISO(start)} />
+
+      <CalendarGrid cells={cells} />
 
       <p className="note">
         マス目をタップすると、出勤／半日出勤／休日を手動で設定できます。手動固定の日（「手動」の印）は自動計算で上書きされません。

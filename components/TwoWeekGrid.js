@@ -13,14 +13,15 @@ const STATUS_OPTIONS = [
   { value: 'day_off', label: '休日' },
 ];
 
-// cells: [{ iso, dayNumber, inPeriod, status, manualFixed }, ...]
-export default function CalendarGrid({ cells }) {
+// cells: [{ iso, dayNumber, status, manualFixed, isToday } | null, ...]
+// null は7列グリッドの余白（本日から2週間の範囲外）
+export default function TwoWeekGrid({ cells }) {
   const [selected, setSelected] = useState(null);
   const [saving, setSaving] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
   const router = useRouter();
 
-  const selectedCell = cells.find((c) => c.iso === selected);
+  const selectedCell = cells.find((c) => c && c.iso === selected);
 
   function openCell(iso) {
     setSelected(iso);
@@ -73,28 +74,33 @@ export default function CalendarGrid({ cells }) {
 
   return (
     <>
-      <div className="calendar-grid">
+      <div className="calendar-grid two-week-grid">
         {WEEKDAY_LABELS.map((w) => (
           <div key={w} className="weekday-header">
             {w}
           </div>
         ))}
-        {cells.map((c) => (
-          <button
-            key={c.iso}
-            type="button"
-            className={[
-              'day-cell',
-              c.inPeriod ? '' : 'outside',
-              c.status ? STATUS_CLASS[c.status] : '',
-            ].join(' ')}
-            onClick={() => openCell(c.iso)}
-          >
-            <div className="day-number">{c.dayNumber}</div>
-            {c.status && <div className="day-status">{STATUS_LABEL[c.status]}</div>}
-            {c.manualFixed && <div className="manual-badge">手動</div>}
-          </button>
-        ))}
+        {cells.map((c, idx) =>
+          c ? (
+            <button
+              key={c.iso}
+              type="button"
+              className={[
+                'day-cell',
+                'day-cell-large',
+                c.isToday ? 'today' : '',
+                c.status ? STATUS_CLASS[c.status] : '',
+              ].join(' ')}
+              onClick={() => openCell(c.iso)}
+            >
+              <div className="day-number">{c.dayNumber}</div>
+              {c.status && <div className="day-status day-status-large">{STATUS_LABEL[c.status]}</div>}
+              {c.manualFixed && <div className="manual-badge">手動</div>}
+            </button>
+          ) : (
+            <div key={`blank-${idx}`} className="day-cell day-cell-blank" />
+          )
+        )}
       </div>
 
       {selectedCell && (

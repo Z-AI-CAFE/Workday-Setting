@@ -82,6 +82,33 @@ body {
   color: #1a73e8;
 }
 
+/* トップページ（2週間表示）用：文字を大きく、見やすく */
+.day-cell-large {
+  min-height: 68px;
+}
+
+.day-cell-large .day-number {
+  font-size: 0.85rem;
+}
+
+.day-status-large {
+  font-size: 1.4rem;
+  font-weight: bold;
+  line-height: 1.1;
+  margin-top: 2px;
+}
+
+.day-cell.today {
+  border: 2px solid #1a73e8;
+}
+
+.day-cell-blank {
+  border: none;
+  background: transparent;
+  cursor: default;
+  min-height: 68px;
+}
+
 .auto-schedule-box {
   margin-bottom: 0.75rem;
 }
