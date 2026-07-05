@@ -3,6 +3,7 @@ import { getSupabaseServerClient } from '../lib/supabaseServer';
 import { getPeriodRange, getCalendarWeeks, formatDateISO } from '../lib/period';
 import CalendarGrid from '../components/CalendarGrid';
 import AutoScheduleButton from '../components/AutoScheduleButton';
+import RefreshButton from '../components/RefreshButton';
 
 // Next.jsの「データキャッシュ」機能により、Supabaseから取得した内容が
 // 使い回されて古いままになるのを防ぐため、毎回必ず最新データを取得させる設定
@@ -58,6 +59,8 @@ export default async function Home({ searchParams }) {
         <span className="period-label">{label}</span>
         <Link href={`/?date=${formatDateISO(nextDate)}`}>次の期間 →</Link>
       </div>
+
+      <RefreshButton />
 
       {error && (
         <p className="error">データの取得に失敗しました：{error.message}</p>

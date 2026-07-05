@@ -107,6 +107,17 @@ body {
   text-align: center;
 }
 
+.refresh-button {
+  width: 100%;
+  padding: 0.6rem;
+  font-size: 0.85rem;
+  border: 1px solid #1a73e8;
+  border-radius: 8px;
+  background: #fff;
+  color: #1a73e8;
+  margin-bottom: 0.75rem;
+}
+
 .modal-backdrop {
   position: fixed;
   inset: 0;

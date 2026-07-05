@@ -3,6 +3,7 @@ import { getSupabaseServerClient } from '../../lib/supabaseServer';
 import ColleagueHolidaysManager from '../../components/ColleagueHolidaysManager';
 import SalaryDaysManager from '../../components/SalaryDaysManager';
 import PrivateEventsManager from '../../components/PrivateEventsManager';
+import RefreshButton from '../../components/RefreshButton';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,6 +25,8 @@ export default async function ManagePage() {
       <p className="manage-back">
         <Link href="/">← カレンダーに戻る</Link>
       </p>
+
+      <RefreshButton />
 
       {loadError && (
         <p className="error">データの取得に失敗しました：{loadError.message}</p>
