@@ -49,6 +49,10 @@ export default async function Home({ searchParams }) {
     <main className="calendar-page">
       <h1>スケジュール管理アプリ</h1>
 
+      <p className="manage-link">
+        <Link href="/manage">同僚の休日・給料日・プライベート用事を入力する →</Link>
+      </p>
+
       <div className="period-nav">
         <Link href={`/?date=${formatDateISO(prevDate)}`}>← 前の期間</Link>
         <span className="period-label">{label}</span>

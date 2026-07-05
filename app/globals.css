@@ -211,3 +211,106 @@ body {
   background: #1a73e8;
   color: #fff;
 }
+
+.manage-link {
+  font-size: 0.85rem;
+  margin-bottom: 0.75rem;
+}
+
+.manage-link a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.manage-back {
+  margin-bottom: 1rem;
+  font-size: 0.9rem;
+}
+
+.manage-back a {
+  color: #1a73e8;
+  text-decoration: none;
+}
+
+.manage-section {
+  background: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+
+.manage-section h2 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.manage-hint {
+  font-size: 0.75rem;
+  color: #888;
+  margin: 0 0 0.75rem;
+}
+
+.manage-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.manage-form input[type='date'],
+.manage-form input[type='text'],
+.manage-form select {
+  flex: 1;
+  min-width: 0;
+  padding: 0.6rem;
+  font-size: 0.9rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+
+.manage-form-private {
+  flex-direction: column;
+}
+
+.manage-form button {
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  border: none;
+  border-radius: 6px;
+  background: #1a73e8;
+  color: #fff;
+}
+
+.manage-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.manage-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85rem;
+  padding: 0.5rem;
+  background: #f7f7f7;
+  border-radius: 6px;
+}
+
+.manage-empty {
+  color: #999;
+  justify-content: center;
+}
+
+.manage-list button {
+  padding: 0.4rem 0.7rem;
+  font-size: 0.8rem;
+  border: none;
+  border-radius: 6px;
+  background: #fdecea;
+  color: #c0392b;
+}
