@@ -8,18 +8,6 @@ body {
   color: #222;
 }
 
-.debug-box {
-  background: #222;
-  color: #0f0;
-  font-size: 0.65rem;
-  padding: 0.5rem;
-  border-radius: 6px;
-  overflow-x: auto;
-  margin-bottom: 0.75rem;
-  white-space: pre-wrap;
-  word-break: break-all;
-}
-
 .calendar-page {
   padding: 1rem;
   font-family: sans-serif;
